@@ -1,0 +1,13 @@
+{
+    "id": "flex_interface",
+    "version": "1.0.2",
+    "name": "flex_interface",
+    "description": "A plugin that allows flexible definition of interaction methods between QQ and Minecraft.",
+    "author": "KMNO7",
+    "link": "https://github.com/MCDReforged/MCDReforged-ExamplePlugin",
+    "dependencies": {
+       "mcdreforged": ">=2.14.7",
+       "minecraft_data_api": ">=1.6.1",
+       "mg_events": ">=1.1.0"
+    }
+}
