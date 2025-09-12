@@ -37,7 +37,8 @@ flex_interface/
 1. **依赖环境**
    - Python 3.8+
    - MCDReforged
-   - MySQL 数据库（用于数据持久化）
+   - MySQL 数据库（涉及MC-QQ互动的插件数据存储）
+   - QQ机器人(本项目采用Lagrange.Onebot)
 
 2. **安装插件**
    - 将 `flex_interface` 文件夹放入 MCDReforged 的 `plugins` 目录下。
@@ -48,13 +49,14 @@ flex_interface/
 4. **启动插件**
    - 启动 MCDReforged，插件会自动初始化数据库表结构。
 
-## 常用指令
+## QQ群内常用指令
 
 - `签到`：每日签到，获取幸运值和奖励
 - `我的信息`：查询个人签到、道具、绿宝石等信息
 - `出售 <道具名> <数量>`：出售道具换取绿宝石
 - `绑定 <游戏ID>`：绑定 QQ 与 MC 账号
 - `解绑 <游戏ID>`：解绑账号
+- `@群员 <道具名>`: 使用道具整蛊正在游玩MC且绑定过游戏ID的群友
 - `在线`：查询当前在线玩家
 - `行情`：查询今日道具出售行情
 
@@ -62,6 +64,7 @@ flex_interface/
 
 - [`main.py`](flex_interface/main.py)：插件主入口，事件处理与消息分发
 - [`bot_command_exec.py`](flex_interface/bot_command_exec.py)：QQ 指令处理
+- [`command_exec.py`](flex_interface/command_exec.py)：QQ-MC互动型指令处理
 - [`handler_db_sign.py`](flex_interface/handler_db_sign.py)：签到与道具数据库逻辑
 - [`handler_db_bind.py`](flex_interface/handler_db_bind.py)：账号绑定逻辑
 - [`manager_autochat.py`](flex_interface/manager_autochat.py)：AI 聊天与上下文管理
@@ -69,7 +72,7 @@ flex_interface/
 
 ## 数据库结构
 
-插件会自动创建所需表，无需手动建表。主要表有：
+插件自动创建所需表，无需手动建表。主要表有：
 
 - `player_bindings`：QQ 与 MC 账号绑定关系
 - `player_daily_sign`：签到与道具记录
