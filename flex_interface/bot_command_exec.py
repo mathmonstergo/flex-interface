@@ -166,15 +166,16 @@ def sign_in(self, user_id, card, message_id, group_id, *args) -> str:
 
 def lucky_rank(self, *args) -> str:
     """
-    调用类查询数据并广播消息
+    调用类查询数据并广播消息, 与其他方法不一致.
     """
     try:
         msg, msg2mc = self.sign_handler.format_lucky_ranking()
-        self.server.chat.broadcast(msg, target="qq")
-        self.server.chat.broadcast(msg2mc, target="mc")
+        if msg2mc:
+            self.server.execute(f'tellraw @a {{\"text\":\"{msg2mc}\",\"color\":\"gray\"}}')
+        return msg
     except Exception as e:
-        self.server.logger.warn(f"幸运排行榜查询失败：{e}")
-        return
+        self.server.logger.warn(f"幸运排行榜查询失败：{e}", exc_info=True)
+        return "幸运排行榜查询失败"
     
 def my_info(self, user_id, nick_name, *args) -> str:
     """
