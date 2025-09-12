@@ -79,7 +79,7 @@ flex_interface/
 - `sign_reward_logs`：签到奖励日志
 - 其他相关表
 
-## 全文由Github Copilot编写
+## Readme测试,大部分由Github Copilot编写
 
 欢迎提交 issue 或 PR 进行功能建议和 bug 反馈。
 
