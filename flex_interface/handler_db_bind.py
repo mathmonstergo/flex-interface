@@ -53,7 +53,7 @@ class PlayerBindingManager:
     def unbind_account(self, user_id: str, player_name: str) -> str:
         """
         解绑玩家账号
-        :return: 操作结果消息
+        :return: 操作结果消息 
         """
         current = self.get_bindings(user_id)
         if not current:
