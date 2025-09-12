@@ -115,40 +115,45 @@ def build_payload(type, *args):
     :return: 构建的 payload 列表（可能是多个payload）
     """
     # 提取 group_id 并确保是列表形式
-    if args:
-        group_ids = args[0]
-        if not isinstance(group_ids, (list, tuple)):
-            group_ids = [group_ids]
-    
-    # 准备其他参数
-    other_args = args[1:] if len(args) > 1 else ()
-    
-    results = []
-    
-    if type == "default":
-        message = other_args[0]
-        for group_id in group_ids:
-            results.append(_build_base_payload(group_id, message))
+    try:
+        if args:
+            group_ids = args[0]
+            if not isinstance(group_ids, (list, tuple)):
+                group_ids = [group_ids]
+        
+        # 准备其他参数
+        other_args = args[1:] if len(args) > 1 else ()
+        
+        results = []
+        
+        if type == "default":
+            message = other_args[0]
+            for group_id in group_ids:
+                results.append(_build_base_payload(group_id, message))
 
-    elif type == "reply":
-        message, message_id = other_args[:2]
-        for group_id in group_ids:
-            cq_message = f"[CQ:reply,id={message_id}]{message}"
-            results.append(_build_base_payload(group_id, cq_message))
+        elif type == "reply":
+            message, message_id = other_args[:2]
+            for group_id in group_ids:
+                cq_message = f"[CQ:reply,id={message_id}]{message}"
+                results.append(_build_base_payload(group_id, cq_message))
 
-    elif type == "at":
-        message, message_id, user_id = other_args[:3]
-        for group_id in group_ids:
-            cq_at = f"[CQ:at,qq={user_id}] "
-            results.append(_build_base_payload(group_id, [cq_at, message]))
-    elif type == "record":
-        message = other_args[0]
-        for group_id in group_ids:
-            results.append(_build_record_payload(group_id, message, character="lucy-voice-suxinjiejie"))
-    elif type == "get_group_list":
-        return [build_group_list_payload(type)]
-    return results
-
+        elif type == "at":
+            message, message_id, user_id = other_args[:3]
+            for group_id in group_ids:
+                cq_at = f"[CQ:at,qq={user_id}] "
+                results.append(_build_base_payload(group_id, [cq_at, message]))
+        elif type == "record":
+            message = other_args[0]
+            for group_id in group_ids:
+                results.append(_build_record_payload(group_id, message, character="lucy-voice-suxinjiejie"))
+        elif type == "get_group_list":
+            return [build_group_list_payload(type)]
+        return results
+    
+    except Exception as e:
+        logger.error(f"构建 payload 时出错: {e}", exc_info=True)
+        return []
+    
 def parse_text(text):
     # 按空格拆分字符串
     parts = text.split()
