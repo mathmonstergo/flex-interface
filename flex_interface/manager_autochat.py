@@ -105,7 +105,7 @@ class AutoChat:
     def _send_mc_broadcast(self, message: str, color: str, bold: bool) -> None:
         """发送带格式的MC消息（JSON tellraw）"""
         try:
-            send_gray_italic_message(self.server, f"[苦力仆提醒] {message}")
+            send_gray_italic_message(self.server, f"[苦力仆] {message}")
         except Exception as e:
             self.server.logger.error(f"发送MC消息失败: {e}")
 
