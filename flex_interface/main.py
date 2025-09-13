@@ -213,7 +213,14 @@ class flexInterface:
             self.sign_handler.sync_balance_from_cmi()  # 该方法仅将CMI的经济缓存到cache_current
         except Exception as e:
             self.server.logger.error(f"绿宝石同步失败: {str(e)}", exc_info=True)
-            
+        try:
+            # 检测当前时间， 设置周五-周日双倍经验
+            current_weekday = time.localtime().tm_wday  # 获取当前是星期几，0表示星期一，6表示星期天
+            if current_weekday in [4, 5, 6]:  # 如果是就开启
+                if not self.server.xpboost_status:
+                    bot_command_exec.double_xp()
+        except Exception as e:
+            self.server.logger.error(f"双倍经验设置失败: {str(e)}", exc_info=True)
     def handle_server_stop(self, *_):
         """处理服务器停止事件"""
         message_type = "default"
@@ -228,6 +235,8 @@ class flexInterface:
         payload = build_payload(message_type, self.group_ids_aync_chat, message)
         self.server.wscl.send_group_message(payload)
         self.sign_handler.apply_emerald_to_player_on_join(player)  # 玩家加入时同步绿宝石账户
+        bot_command_exec.show_xprate(self, player)  # 玩家加入时显示当前经验倍率
+        
     def handle_player_left(self, player: str):
         """处理玩家离开事件"""
         message_type = "default"
