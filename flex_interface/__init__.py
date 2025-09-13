@@ -37,6 +37,7 @@ def on_load(server: PluginServerInterface, old):
         return
     server.config = config
     server.mc_api = api
+    server.xpboost_status = False  # mcmmo插件双倍经验初始状态
     # 初始化插件,wsclient,获取群组信息
     initialize_plugin_thread(server)
 
