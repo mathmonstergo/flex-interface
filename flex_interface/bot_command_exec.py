@@ -298,3 +298,45 @@ def sync_emerald(self, *args):
         self.server.logger.error(f"绿宝石同步失败: {str(e)}", exc_info=True)
         return "绿宝石同步失败"
 
+
+def double_xp(self, *args) -> str:
+    """双倍经验切换"""
+    try:
+        current_state = self.server.xpboost_status
+        if current_state:
+            # 关闭双倍经验
+            self.server.xpboost_status = False
+            self.server.execute("xprate clear")
+            new_state = "false"
+        else:
+            # 开启双倍经验
+            self.server.xpboost_status = True
+            self.server.execute("xprate 2 on")
+            new_state = "true"
+        state_str = "开启" if new_state == "true" else "关闭"
+        text_to_mc = f"[苦力仆] Mcmmo 双倍技能经验状态为: {state_str}"
+        send_gray_italic_message(self.server, text_to_mc)
+        return f"已{state_str}Mcmmo双倍经验活动"
+    except Exception as e:
+        self.server.logger.error(f"切换双倍经验失败: {str(e)}", exc_info=True)
+        return "切换双倍经验失败"
+    
+def show_xprate(self, player: str) -> None:
+    """显示当前经验倍率给指定玩家"""
+    try:
+        current_state = self.server.xpboost_status
+        print(current_state)
+        if current_state:
+            commands = [
+            f'panimation circle;effect:reddust;dur:10;pitchc:5;part:10;offset:0,1,0;radius:1;yawc:5;color:rs;target:{player}',
+            f"execute at {player} run playsound minecraft:entity.pig.saddle master @a ~ ~ ~ 1 1",
+            f'title {player} title {{"text":"MCMMO 活动！","color":"gold"}}',
+            f'title {player} subtitle {{"text":"双倍技能经验开启中！","color":"yellow"}}',
+        ]
+            for cmd in commands:
+                self.server.execute(cmd)
+
+
+    except Exception as e:
+        self.server.logger.error(f"显示经验倍率失败: {str(e)}", exc_info=True)
+        return
