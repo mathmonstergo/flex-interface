@@ -328,7 +328,7 @@ def show_xprate(self, player: str) -> None:
         print(current_state)
         if current_state:
             commands = [
-            f'panimation circle;effect:reddust;dur:10;pitchc:5;part:10;offset:0,1,0;radius:1;yawc:5;color:rs;target:{player}',
+            f'panimation circle;effect:reddust;dur:5;pitchc:5;part:10;offset:0,1,0;radius:1;yawc:5;color:rs;target:{player}',
             f"execute at {player} run playsound minecraft:entity.pig.saddle master @a ~ ~ ~ 1 1",
             f'title {player} title {{"text":"MCMMO 活动！","color":"gold"}}',
             f'title {player} subtitle {{"text":"双倍技能经验开启中！","color":"yellow"}}',
