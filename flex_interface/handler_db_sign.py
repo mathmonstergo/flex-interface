@@ -219,9 +219,6 @@ class PlayerSignManager:
 
             # 数据库事务
             with self.mysql_mgr.transaction():
-                # 更新签到记录
-                self._update_sign_record(user_id, today, current_streak)
-
                 # 记录奖励日志
                 self.mysql_mgr.safe_query(
                     """INSERT INTO sign_reward_logs 
