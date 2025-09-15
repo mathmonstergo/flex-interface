@@ -216,9 +216,10 @@ class flexInterface:
         try:
             # 检测当前时间， 设置周五-周日双倍经验
             current_weekday = time.localtime().tm_wday  # 获取当前是星期几，0表示星期一，6表示星期天
+            self.server.logger.info(f'当前星期{current_weekday}')
             if current_weekday in [4, 5, 6]:  # 如果是就开启
                 if not self.server.xpboost_status:
-                    bot_command_exec.double_xp()
+                    bot_command_exec.double_xp(self)
         except Exception as e:
             self.server.logger.error(f"双倍经验设置失败: {str(e)}", exc_info=True)
     def handle_server_stop(self, *_):
