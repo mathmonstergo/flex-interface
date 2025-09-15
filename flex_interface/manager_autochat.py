@@ -39,7 +39,7 @@ class AutoChat:
         self.last_reply_time = {}  # 记录每个群组的最后回复时间
 
         self.context_max_length = self.config.get("context_max_length", 50)
-        self.bot_name = self.config.get("bot_name", "AutoChat")  # 添加默认值
+        self.bot_name = self.config.get("bot_name", "苦力仆")  # 添加默认值
         self.ai_enabled = self.config.get("enable", False)  # 添加默认值
         self.prompt = self.config.get("prompt", "你是一个在QQ与MC互通的Minecraft服务器聊天机器人")
         self.auto_prompt = self.config.get("auto_prompt", "请根据这些MC的实时信息生成强互动感的话题")
@@ -105,7 +105,7 @@ class AutoChat:
     def _send_mc_broadcast(self, message: str, color: str, bold: bool) -> None:
         """发送带格式的MC消息（JSON tellraw）"""
         try:
-            send_gray_italic_message(self.server, f"[苦力仆] {message}")
+            send_gray_italic_message(self.server, f"[{self.bot_name}] {message}")
         except Exception as e:
             self.server.logger.error(f"发送MC消息失败: {e}")
 
@@ -480,7 +480,7 @@ class AutoChat:
             print("信息重复")
             return False
         # 4. 动态回复概率（安全访问配置）
-        default_keywords = ["苦力仆"]  # 默认触发词
+        default_keywords = [f"{self.bot_name}"]  # 默认触发词
         triggers = self.config.get("triggers", {})
         keywords = triggers.get("keywords", default_keywords)
 

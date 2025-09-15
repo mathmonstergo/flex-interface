@@ -4,6 +4,7 @@ from .utils import *
 import online_player_api as ol_api
 import datetime
 import hashlib
+
 # args = [被@的qq  +  @的第一个词语 +  发消息人的昵称 + 第二个词语]
 
 
@@ -247,7 +248,8 @@ def sell_item(self, user_id, nickname, message_id, group_id, first_param, second
                 factor_str = f"{int(round(factor * 100))}%"
 
                 self.sign_handler.update_emerald_drops(user_id, emerald)
-                text_to_mc = f"[苦力仆] {nickname} 成功以 {factor_str} 的价格 出售 {number} 个 {item}, 共获得 {emerald} 个绿宝石 !"  # MC
+                bot_name = self.server.config.get('bot_name')
+                text_to_mc = f"[{bot_name}] {nickname} 成功以 {factor_str} 的价格 出售 {number} 个 {item}, 共获得 {emerald} 个绿宝石 !"  # MC
                 send_gray_italic_message(self.server, text_to_mc)
                 self.server.logger.info(f"[{user_id}-{factor}]成功以 {factor_str} 的价格 出售 {number} 个 {item}, 共获得 {emerald} 个绿宝石 !")  # 控制台
                 return f"成功以 {factor_str} 的价格 出售 {number} 个 {item}, 共获得 {emerald} 个绿宝石 !"  # QQ
@@ -264,7 +266,8 @@ def query_market_trend(self, user_id, nickname, *args) -> str:
         # 获取行情系数
         base_factor = get_date_factor()  # 0.7-1.4
         trend = "溢价↑" if base_factor > 1.0 else "↓折扣" if base_factor < 1.0 else "正常价"
-        text_to_mc = f"[苦力仆] {nickname} 花费 50 绿宝石查询了今日行情, 今日道具售价系数：{base_factor:.2f}"
+        bot_name = self.server.config.get('bot_name')
+        text_to_mc = f"[{bot_name}] {nickname} 花费 50 绿宝石查询了今日行情, 今日道具售价系数：{base_factor:.2f}"
         send_gray_italic_message(self.server, text_to_mc)
         # 格式化返回信息
         return (
@@ -314,7 +317,8 @@ def double_xp(self, *args) -> str:
             self.server.execute("xprate 2 on")
             new_state = "true"
         state_str = "开启" if new_state == "true" else "关闭"
-        text_to_mc = f"[苦力仆] Mcmmo 双倍技能经验状态为: {state_str}"
+        bot_name = self.server.config.get('bot_name')
+        text_to_mc = f"[{bot_name}] Mcmmo 双倍技能经验状态为: {state_str}"
         send_gray_italic_message(self.server, text_to_mc)
         return f"已{state_str}Mcmmo双倍经验活动"
     except Exception as e:

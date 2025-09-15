@@ -186,7 +186,8 @@ class PlayerSignManager:
                 "║赶紧用道具干翻群友吧！\n"
                 "║@群友并选中,输入道具名称,发送！"
             )
-            message_to_mc = f"[苦力仆] {card} 今日第{sign_order}个签到，获得幸运数字 {reward['lucky_number']}，触发 {reward['multiplier']} 倍奖励，得到 {reward['name']} {reward['final_amount']} 个，当前已连续签到 {new_streak} 天。"
+            bot_name = self.server.config.get('bot_name')
+            message_to_mc = f"[{bot_name}] {card} 今日第{sign_order}个签到，获得幸运数字 {reward['lucky_number']}，触发 {reward['multiplier']} 倍奖励，得到 {reward['name']} {reward['final_amount']} 个，当前已连续签到 {new_streak} 天。"
             
             print(message_to_mc)
             return message, message_to_mc
@@ -234,7 +235,8 @@ class PlayerSignManager:
                 f"成功为QQ {user_id} 开启盲盒\n"
                 f"获得道具：{reward['name']}*{reward['final_amount']}"
             )
-            message_to_mc = f"[苦力仆] {nick_name} 为QQ {user_id} 开启了盲盒，得到 {reward['name']} {reward['final_amount']} 个"
+            bot_name = self.server.config.get('bot_name')
+            message_to_mc = f"[{bot_name}] {nick_name} 为QQ {user_id} 开启了盲盒，得到 {reward['name']} {reward['final_amount']} 个"
             print(message_to_mc)
             return message, message_to_mc
         except Exception as e:
@@ -542,7 +544,8 @@ class PlayerSignManager:
             message += f"║ ❤️ 最爱玩家: {target_info['account']}({target_info['usage_count']}次)\n"
 
         message += "║═══════════\n"
-        message_to_mc = f"[苦力仆] {nick_name}查询了他的个人信息"
+        bot_name = self.server.config.get('bot_name')
+        message_to_mc = f"[{bot_name}] {nick_name}查询了他的个人信息"
         # 道具信息
         if rewards:
             reward_list = [f"{r['reward_name']} * {r['total_amount']}" for r in rewards]

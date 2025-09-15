@@ -460,7 +460,8 @@ class flexInterface:
     def on_ws_status_change(self, connected: bool):
         # if connected:
         #     type="default"
-        #     info = "苦力仆已上线~"
+        #     bot_name = self.server.config.get('bot_name')
+        #     info = f"{bot_name} 已连接~"
         #     group_id = config.get("group_ids")
         #     payload = build_payload(type, group_id, info)
         #     self.server.wscl.send_group_message(payload)

@@ -44,7 +44,8 @@ def trick_binded_player(self, user_id: str, args: list) -> str:
         self_effect = ["机票", "盲盒"]
         if effect_type not in self_effect:  # 目前只有机票 盲盒支持对自己操作
             return "你不能对自己那样做~"
-    send_gray_italic_message(self.server, f"[苦力仆] {user_name}在群里悄悄密谋着什么...")
+    bot_name = self.server.config.get('bot_name')
+    send_gray_italic_message(self.server, f"[{bot_name}] {user_name}在群里悄悄密谋着什么...")
 
     if mysql_enable:
         try:
