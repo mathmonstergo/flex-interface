@@ -458,7 +458,10 @@ class PlayerSignManager:
         usage_query_today = """
             SELECT reward_name, COUNT(*) AS items_used_today
             FROM item_usage_logs
-            WHERE user_id = %s AND usage_time >= %s AND usage_time < %s
+            WHERE user_id = %s 
+            AND usage_time >= %s 
+            AND usage_time < %s
+            AND account NOT IN ('出售', '无')  -- 新增过滤条件
             GROUP BY reward_name
         """
         return self.mysql_mgr.query_all(usage_query_today, (user_id, today_start, today_end))
@@ -469,6 +472,7 @@ class PlayerSignManager:
             SELECT reward_name, COUNT(*) AS total_items_used
             FROM item_usage_logs
             WHERE user_id = %s
+            AND account NOT IN ('出售', '无')  -- 新增过滤条件
             GROUP BY reward_name
         """
         return self.mysql_mgr.query_all(usage_query_total, (user_id,))
