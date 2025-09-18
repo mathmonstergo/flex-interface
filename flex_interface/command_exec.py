@@ -31,7 +31,7 @@ def trick_binded_player(self, user_id: str, args: list) -> str:
     effect_type = args[1]  # 道具名称（对应reward_name）
     user_name = args[2]  # 使用者昵称
     second_param = args[3]
-    mysql_enable = config.get("flex_mysql_config").get("enable") # 查询是否启用数据库
+    mysql_enable = config.get("mysql_enable") # 查询是否启用数据库
 
     effect_config = config.get("at_effect_config")
 

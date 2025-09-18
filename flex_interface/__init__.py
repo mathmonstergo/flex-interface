@@ -56,7 +56,7 @@ def initialize_plugin_thread(server: PluginServerInterface):
     """初始化插件的线程"""
     try:
         plugin_instance = flexInterface(server)
-        plugin_instance.initialize(config.get("flex_mysql_config"))
+        plugin_instance.initialize(config.get("mysql_config"))
         server.plugin = plugin_instance  # 挂载到server
         server.logger.info("flex_interface已挂载到server")
         initialize_websocket(server)       # 确保 WebSocket 初始化完成

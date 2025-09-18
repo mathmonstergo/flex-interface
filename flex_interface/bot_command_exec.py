@@ -135,7 +135,8 @@ def online_info(self, *args):
     """获取玩家列表并通知"""
     amount, limit, players = self.mc_api.get_server_player_list()
     if players:
-        format_text = f"[CQ:face,id=161] 当前有 {amount} 个人在摸鱼: {players}"
+        player_str = "，".join(players)  # 用中文逗号分隔
+        format_text = f"[CQ:face,id=161] 当前有 {amount} 个人在摸鱼: [{player_str}]"
     else:
         format_text = f"[CQ:face,id=161] 服务器倒闭了"
     return format_text
@@ -200,7 +201,7 @@ def my_info(self, user_id, nick_name, *args) -> str:
 
 
 def sell_item(self, user_id, nickname, message_id, group_id, first_param, second_param, third_param) -> str:
-    mysql_enable = self.config.get("flex_mysql_config").get("enable") # 查询是否启用数据库
+    mysql_enable = self.config.get("mysql_enable") # 查询是否启用数据库
     luck_number = None
     if mysql_enable:
         effect_config = self.config.get("at_effect_config")
@@ -329,7 +330,6 @@ def show_xprate(self, player: str) -> None:
     """显示当前经验倍率给指定玩家"""
     try:
         current_state = self.server.xpboost_status
-        print(current_state)
         if current_state:
             commands = [
             f'panimation circle;effect:reddust;dur:5;pitchc:5;part:10;offset:0,1,0;radius:1;yawc:5;color:rs;target:{player}',

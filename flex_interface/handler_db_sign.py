@@ -624,7 +624,7 @@ class PlayerSignManager:
         根据 emerald_drops 发放经济（使用 CMI 指令），同步最新余额至 cached_balance，并清空 emerald_drops。
         仅当玩家名为 account1 时执行。
         """
-        if not self.mysql_mgr.config.get("enable_cmi", False):
+        if not self.mysql_mgr.extra_config.get("enable_cmi", False):
             self.logger.warning("未启用 CMI，同步跳过。")
             return
 
@@ -656,16 +656,6 @@ class PlayerSignManager:
                 self.logger.info(f"用户 {username} 的 emerald_drops 为 0，无需处理。")
                 return
 
-            # 发放经济 + 显示标题
-            cmds = [
-                f'cmi money {"give" if emerald_delta > 0 else "take"} {username} {abs(emerald_delta)}',
-                f'title {username} title {{"text":"绿宝石已同步!","color":"green"}}',
-                f'title {username} subtitle {{"text":"你的余额 {emerald_delta:+}","color":"dark_green"}}',
-                f'cmi sound entity.player.levelup {username}',  # 增加经验音效
-            ]
-            for cmd in cmds:
-                self.server.execute(cmd)
-
             # 清空 emerald_drops
             self.mysql_mgr.safe_query(
                 """
@@ -680,6 +670,17 @@ class PlayerSignManager:
                 "SELECT Balance FROM cmi_users WHERE username = %s",
                 (username,)
             )
+
+            # 发放经济 + 显示标题
+            cmds = [
+                f'cmi money {"give" if emerald_delta > 0 else "take"} {username} {abs(emerald_delta)}',
+                f'title {username} title {{"text":"绿宝石已同步!","color":"green"}}',
+                f'title {username} subtitle {{"text":"你的余额 {emerald_delta:+}","color":"dark_green"}}',
+                f'cmi sound entity.player.levelup {username}',  # 增加经验音效
+            ]
+            for cmd in cmds:
+                self.server.execute(cmd)
+                
             if balance_result:
                 new_balance = balance_result[0]['Balance'] + emerald_delta
                 self.mysql_mgr.safe_query(
@@ -702,7 +703,7 @@ class PlayerSignManager:
 
     def sync_balance_from_cmi(self):
         # 定时批量同步余额
-        if not self.mysql_mgr.config.get("enable_cmi", False):
+        if not self.mysql_mgr.extra_config.get("enable_cmi", False):
             self.server.logger.warning("未启用 CMI，同步跳过。")
             return
 
