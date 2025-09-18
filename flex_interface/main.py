@@ -66,7 +66,7 @@ class flexInterface:
         self.sign_handler = PlayerSignManager(self.server, self.mysql_mgr, self.binding_mgr, config.get("prize_config"))
     
     
-    def parse_message(self, content, prefix_to_match=["world", "Mainland"]):
+    def parse_message(self, content, prefix_to_match=["world", "Mainland","world_nether","world_the_end"]):
         # 如果提供了 prefix_to_match，检查 [prefix] 是否在 prefix_to_match 列表中
         for prefix in prefix_to_match:
             prefix_pattern = r"^\[" + re.escape(prefix) + r"\]"
